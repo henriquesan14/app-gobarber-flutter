@@ -1,13 +1,9 @@
-import 'package:app_gobarber/pages/dashboard/dashboard.dart';
-import 'package:app_gobarber/pages/dashboard/profile/profile_page.dart';
 import 'package:app_gobarber/pages/signin/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'pages/dashboard/dashboard.dart';
-import 'pages/dashboard/dashboard.dart';
+
 import 'pages/signin/sign_in_page.dart';
-import 'pages/signup/sign_up_page.dart';
 
 void main() => runApp(MyApp());
 

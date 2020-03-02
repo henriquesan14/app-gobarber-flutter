@@ -8,14 +8,18 @@ class InputField extends StatelessWidget {
   final TextInputType tipo;
   final TextInputAction inputAction;
   final Function onSubmitted;
+  final Function onChanged;
   final TextEditingController controller;
   final FocusNode focus;
+  final Function validator;
 
-  InputField({this.hint, this.icon, this.obscure = false, this.autoCorrect = false, this.tipo, this.inputAction, this.focus, this.onSubmitted, this.controller});
+  InputField({this.hint, this.icon, this.obscure = false, this.autoCorrect = false, this.tipo, this.inputAction, this.focus, this.onSubmitted, this.onChanged , this.controller, this.validator});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
+      validator: validator,
       focusNode: focus,
       controller: controller,
       onFieldSubmitted: onSubmitted,
@@ -33,7 +37,12 @@ class InputField extends StatelessWidget {
         filled: true,
         fillColor: Color.fromRGBO(0, 0, 0, 0.1),
         border: InputBorder.none,
-        focusedBorder: InputBorder.none
+        focusedBorder: InputBorder.none,
+        errorStyle: TextStyle(
+          color: Colors.redAccent,
+          fontWeight: FontWeight.bold,
+          fontSize: 12
+        )
       ),
     );
   }

@@ -1,4 +1,5 @@
 
+import 'package:app_gobarber/stores/profile_store.dart';
 import 'package:app_gobarber/widgets/container_gradient.dart';
 import 'package:app_gobarber/widgets/input_field.dart';
 import 'package:app_gobarber/widgets/submit_button.dart';
@@ -10,6 +11,7 @@ class ProfilePage extends StatelessWidget {
   final FocusNode focusSenhaAtual = FocusNode();
   final FocusNode focusNovaSenha = FocusNode();
   final FocusNode focusConfirmSenha = FocusNode();
+  final ProfileStore profileStore = ProfileStore();
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +97,9 @@ class ProfilePage extends StatelessWidget {
                 SizedBox(height: 10,),
                 SubmitButton(
                   color: Color(0xfff64c75),
-                  onPressed: (){},
+                  onPressed: (){
+                    profileStore.logout(context);
+                  },
                   text: "Sair do GoBarber",
                 )
               ],
