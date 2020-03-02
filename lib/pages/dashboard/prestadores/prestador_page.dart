@@ -20,6 +20,17 @@ class PrestadorPage extends StatelessWidget {
             CardPrestador(),
             CardPrestador(),
             CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
+            CardPrestador(),
           ],
         ));
   }
