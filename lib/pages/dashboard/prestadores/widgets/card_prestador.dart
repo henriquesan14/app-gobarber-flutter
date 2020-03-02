@@ -13,8 +13,8 @@ class CardPrestador extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 60,
-                    height: 60,
+                    width: 65,
+                    height: 65,
                     child: CircleAvatar(
                       backgroundImage: NetworkImage("https://i.ytimg.com/vi/nX2mWiJUW30/maxresdefault.jpg"),
                     ),

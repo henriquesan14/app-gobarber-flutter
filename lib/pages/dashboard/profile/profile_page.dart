@@ -1,4 +1,5 @@
 
+import 'package:app_gobarber/widgets/container_gradient.dart';
 import 'package:app_gobarber/widgets/input_field.dart';
 import 'package:app_gobarber/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
@@ -12,37 +13,23 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Theme.of(context).primaryColor,
-                  Color(0xffab59c1),
-                ]
+    return ContainerGradient(
+          appBar: AppBar(
+            title: Text(
+              "Meu perfil",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold
               ),
+            ),
+            centerTitle: true,
+            elevation: 0,
           ),
           child: Form(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Container(
-                    margin: EdgeInsets.symmetric(vertical:15),
-                    child: Center(
-                    child: Text(
-                      "Meu perfil",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold
-                      )
-                    )
-                  ),
-                ),
+                SizedBox(height: 10,),
                 InputField(
                   autoCorrect: false,
                   hint: "Nome Completo",
@@ -114,8 +101,6 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
-    );
+        );
   }
 }

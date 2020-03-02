@@ -33,7 +33,7 @@ class _DashBoardState extends State<DashBoard> {
       controller: _pageController,
       children: <Widget>[
         AgendamentosPage(),
-        PrestadorPage(),
+        Container(),
         ProfilePage(),
       ],
     ),

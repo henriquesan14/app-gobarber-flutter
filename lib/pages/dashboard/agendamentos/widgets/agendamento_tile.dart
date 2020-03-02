@@ -22,7 +22,7 @@ class AgendamentoTile extends StatelessWidget {
         leading: Container(
           width: 55,
           height: 55,
-          margin: EdgeInsets.only(right: 15),
+          margin: EdgeInsets.only(right: 10),
             child: CircleAvatar(
             backgroundImage: NetworkImage("https://i.ytimg.com/vi/nX2mWiJUW30/maxresdefault.jpg"),
           ),
