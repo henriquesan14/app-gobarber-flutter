@@ -1,4 +1,5 @@
 
+import 'package:app_gobarber/pages/dashboard/dashboard.dart';
 import 'package:app_gobarber/pages/signup/sign_up_page.dart';
 import 'package:app_gobarber/widgets/input_field.dart';
 import 'package:app_gobarber/widgets/submit_button.dart';
@@ -8,7 +9,7 @@ import 'dart:ui';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignInPage extends StatelessWidget {
-  FocusNode focusSenha = FocusNode();
+  final FocusNode focusSenha = FocusNode();
   @override
   Widget build(BuildContext context) {
     final mq = MediaQueryData.fromWindow(window);
@@ -52,11 +53,17 @@ class SignInPage extends StatelessWidget {
                 obscure: true,
                 tipo: TextInputType.visiblePassword,
                 inputAction: TextInputAction.done,
+                onSubmitted: (term){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> DashBoard()));
+                },
               ),
               SizedBox(height: 10),
               SubmitButton(
+                color: Color(0xff3b9eff),
                 text: "Acessar",
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> DashBoard()));
+                },
               ),
               SizedBox(height: 20),
               Center(

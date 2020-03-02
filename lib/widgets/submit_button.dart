@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 class SubmitButton extends StatelessWidget {
   final String text;
   final Function onPressed;
+  final Color color;
 
-  SubmitButton({this.text, this.onPressed});
+  SubmitButton({this.text, this.onPressed, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 50,
       child: RaisedButton(
-        color: Color(0xff3b9eff),
+        color: color,
         elevation: 0,
         onPressed: onPressed,
         child: Text(text,

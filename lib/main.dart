@@ -1,3 +1,5 @@
+import 'package:app_gobarber/pages/dashboard/dashboard.dart';
+import 'package:app_gobarber/pages/dashboard/profile/profile_page.dart';
 import 'package:app_gobarber/pages/signin/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

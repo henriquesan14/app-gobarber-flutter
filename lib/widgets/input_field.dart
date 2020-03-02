@@ -11,7 +11,7 @@ class InputField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focus;
 
-  InputField({this.hint, this.icon, this.obscure, this.autoCorrect = false, this.tipo, this.inputAction, this.focus, this.onSubmitted, this.controller});
+  InputField({this.hint, this.icon, this.obscure = false, this.autoCorrect = false, this.tipo, this.inputAction, this.focus, this.onSubmitted, this.controller});
 
   @override
   Widget build(BuildContext context) {

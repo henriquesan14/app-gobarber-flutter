@@ -67,6 +67,7 @@ class SignUpPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               SubmitButton(
+                color: Color(0xff3b9eff),
                 text: "Cadastrar",
                 onPressed: (){},
               ),

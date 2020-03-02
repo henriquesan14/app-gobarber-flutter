@@ -1,0 +1,121 @@
+
+import 'package:app_gobarber/widgets/input_field.dart';
+import 'package:app_gobarber/widgets/submit_button.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+class ProfilePage extends StatelessWidget {
+  final FocusNode focusEmail = FocusNode();
+  final FocusNode focusSenhaAtual = FocusNode();
+  final FocusNode focusNovaSenha = FocusNode();
+  final FocusNode focusConfirmSenha = FocusNode();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+          child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Theme.of(context).primaryColor,
+                  Color(0xffab59c1),
+                ]
+              ),
+          ),
+          child: Form(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.symmetric(vertical:15),
+                    child: Center(
+                    child: Text(
+                      "Meu perfil",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
+                      )
+                    )
+                  ),
+                ),
+                InputField(
+                  autoCorrect: false,
+                  hint: "Nome Completo",
+                  icon: Icon(FontAwesomeIcons.user, color: Colors.white),
+                  inputAction: TextInputAction.next,
+                  onSubmitted: (term){
+                    FocusScope.of(context).requestFocus(focusEmail);
+                  },
+                ),
+                SizedBox(height: 10),
+                InputField(
+                  focus: focusEmail,
+                  autoCorrect: false,
+                  hint: "Informe seu e-mail",
+                  icon: Icon(FontAwesomeIcons.envelope, color: Colors.white),
+                  inputAction: TextInputAction.next,
+                  onSubmitted: (term){
+                    FocusScope.of(context).requestFocus(focusSenhaAtual);
+                  },
+                ),
+                Container(
+                    margin: EdgeInsets.only(top: 30, bottom: 30),
+                    child: Divider(
+                    color: Color.fromRGBO(255, 255, 255, .2),
+                    height: 1,
+                  ),
+                ),
+                InputField(
+                  focus: focusSenhaAtual,
+                  autoCorrect: false,
+                  hint: "Sua senha atual",
+                  icon: Icon(FontAwesomeIcons.lock, color: Colors.white),
+                  inputAction: TextInputAction.next,
+                  onSubmitted: (term){
+                    FocusScope.of(context).requestFocus(focusNovaSenha);
+                  },
+                ),
+                SizedBox(height: 10),
+                InputField(
+                  focus: focusNovaSenha,
+                  autoCorrect: false,
+                  hint: "Sua nova senha",
+                  icon: Icon(FontAwesomeIcons.lock, color: Colors.white),
+                  inputAction: TextInputAction.next,
+                  onSubmitted: (term){
+                    FocusScope.of(context).requestFocus(focusConfirmSenha);
+                  },
+                ),
+                SizedBox(height: 10),
+                InputField(
+                  focus: focusConfirmSenha,
+                  autoCorrect: false,
+                  hint: "Confirmação de senha",
+                  icon: Icon(FontAwesomeIcons.lock, color: Colors.white),
+                  inputAction: TextInputAction.done,
+                ),
+                SizedBox(height: 15),
+                SubmitButton(
+                  color: Color(0xff3b9eff),
+                  onPressed: (){},
+                  text: "Atualizar Perfil",
+                ),
+                SizedBox(height: 10,),
+                SubmitButton(
+                  color: Color(0xfff64c75),
+                  onPressed: (){},
+                  text: "Sair do GoBarber",
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
