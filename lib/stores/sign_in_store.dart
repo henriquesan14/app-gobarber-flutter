@@ -14,6 +14,9 @@ abstract class _SignInStoreBase with Store {
 
   @observable
   UserCredentials userCredentails = UserCredentials();
+
+  @observable
+  bool loading = false;
   
   @action
   void setEmail(value){
@@ -25,19 +28,13 @@ abstract class _SignInStoreBase with Store {
     userCredentails.password = value;
   }
 
-  @action
-  Future login(context) async {
-    try{
-      Response response = await HttpRequest().dio.post('/sessions', data: userCredentails.toJson());
-      await SharedUtils().setAuth(response.data);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> DashBoard()));
-    }catch(e){
-      showDialog(
+  _showDialog(context, title, content){
+    showDialog(
         context: context,
         builder: (BuildContext context){
           return AlertDialog(
-            title: Text("Falha ao acessar"),
-            content: Text("Email/password inválido(s)"),
+            title: Text(title),
+            content: Text(content),
             actions: <Widget>[
               FlatButton(
                 child: Text("OK"),
@@ -49,6 +46,25 @@ abstract class _SignInStoreBase with Store {
           );
         }
       );
+  }
+
+  @action
+  Future login(context) async {
+    loading = true;
+    try{
+      Response response = await HttpRequest().dio.post('/sessions', data: userCredentails.toJson());
+      ResponseSignIn responseSignIn = ResponseSignIn.fromJson(response.data);
+      if(responseSignIn.user.provider){
+        _showDialog(context, "Falha no login", "O usuário não pode ser prestador de serviços");
+        return;
+      }
+      await SharedUtils().setAuth(response.data);
+      Navigator.pop(context);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> DashBoard()));
+    }catch(e){
+      _showDialog(context, "Falha no login", "Email/Password inválido(s)");
+    }finally{
+      loading = false;
     }
   }
 

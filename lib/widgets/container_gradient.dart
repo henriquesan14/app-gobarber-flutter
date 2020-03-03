@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class ContainerGradient  extends StatelessWidget {
 
@@ -22,12 +24,12 @@ class ContainerGradient  extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               Theme.of(context).primaryColor,
-               Color(0xffab59c1),
+              Color(0xffab59c1),
             ]
           ),
         ),
-        child: child
-      ),
+        child: child    
+      ), 
     );
   }
 }

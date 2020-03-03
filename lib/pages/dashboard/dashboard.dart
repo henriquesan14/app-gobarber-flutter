@@ -23,7 +23,7 @@ class DashBoard extends StatelessWidget {
           ProfilePage(),
         ],
       ),
-      bottomNavigationBar: Observer(builder: (context) {
+      bottomNavigationBar: Observer(builder: (_) {
         return Container(
           height: 80,
           child: BottomNavigationBar(

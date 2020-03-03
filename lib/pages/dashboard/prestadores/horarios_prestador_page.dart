@@ -70,7 +70,7 @@ class HorariosPrestadorPage extends StatelessWidget{
                     Container(
                       margin: EdgeInsets.only(left: 15),
                       child: Observer(
-                          builder: (context){
+                          builder: (_){
                             return Text(
                               horarioStore.dataFormada,
                               style: TextStyle(

@@ -11,6 +11,7 @@ abstract class _ProfileStoreBase with Store {
   @action
   void logout(context){
     SharedUtils().removeAuth();
+    Navigator.pop(context);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignInPage()));
   }
 }

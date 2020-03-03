@@ -1,18 +1,40 @@
-
-import 'package:app_gobarber/widgets/container_gradient.dart';
+import 'package:app_gobarber/stores/sign_up_store.dart';
 import 'package:app_gobarber/widgets/input_field.dart';
 import 'package:app_gobarber/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class SignUpPage extends StatelessWidget {
   final FocusNode focusEmail = FocusNode();
   final FocusNode focusSenha = FocusNode();
-
+  final SignUpStore signUpStore = SignUpStore();
   @override
   Widget build(BuildContext context) {
-    return ContainerGradient(
-        child: Form(
+    return Scaffold(
+        backgroundColor: Color(0xffab59c1),
+        body: Observer(
+          builder: (_){
+            return ModalProgressHUD(
+              inAsyncCall: signUpStore.loading,
+              opacity: 0.3,
+              progressIndicator: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Theme.of(context).primaryColor,
+                      Color(0xffab59c1),
+                    ]
+                  ),
+                ),
+                child: Form(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -20,6 +42,7 @@ class SignUpPage extends StatelessWidget {
               Image.asset('assets/logo.png', height: 130),
               SizedBox(height: 30),
               InputField(
+                onChanged: signUpStore.setNome,
                 hint: "Nome completo",
                 icon: Icon(FontAwesomeIcons.user, color: Colors.white),
                 obscure: false,
@@ -31,6 +54,7 @@ class SignUpPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               InputField(
+                onChanged: signUpStore.setEmail,
                 focus: focusEmail,
                 hint: "Digite seu e-mail",
                 icon: Icon(FontAwesomeIcons.envelope, color: Colors.white),
@@ -43,6 +67,7 @@ class SignUpPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               InputField(
+                onChanged: signUpStore.setPassword,
                 focus: focusSenha,
                 hint: "Sua senha secreta",
                 icon: Icon(FontAwesomeIcons.lock, color: Colors.white),
@@ -54,7 +79,9 @@ class SignUpPage extends StatelessWidget {
               SubmitButton(
                 color: Color(0xff3b9eff),
                 text: "Cadastrar",
-                onPressed: (){},
+                onPressed: (){
+                  signUpStore.register(context);
+                },
               ),
               SizedBox(height: 20),
               Center(
@@ -73,6 +100,10 @@ class SignUpPage extends StatelessWidget {
             ],
           )
         )
+              )
+            );
+          },
+        ) 
     );
   }
 }
