@@ -29,7 +29,7 @@ mixin _$AgendamentosStore on _AgendamentosStoreBase, Store {
   final _$getProvidersAsyncAction = AsyncAction('getProviders');
 
   @override
-  Future<dynamic> getProviders() {
+  Future getProviders() {
     return _$getProvidersAsyncAction.run(() => super.getProviders());
   }
 

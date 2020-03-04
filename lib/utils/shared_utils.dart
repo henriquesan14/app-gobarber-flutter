@@ -10,7 +10,7 @@ class SharedUtils {
     prefs.setString('auth', json.encode(auth));
   }
 
-  getAuth() async {
+  Future<ResponseSignIn> getAuth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String authStr = prefs.getString('auth');
     return ResponseSignIn.fromJson(json.decode(authStr));

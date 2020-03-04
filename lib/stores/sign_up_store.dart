@@ -39,7 +39,8 @@ abstract class _SignUpStoreBase with Store {
   Future register(context) async {
     loading = true;
     try{
-      Response response = await HttpRequest().dio.post('/users', data: userRegister.toJson());
+      Dio dio = await HttpRequest().getApi();
+      Response response = await dio.post('/users', data: userRegister.toJson());
       if(response.statusCode == 200){
         _showDialog(context, "Sucesso", "Cadastrado com sucesso", (){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignInPage()));

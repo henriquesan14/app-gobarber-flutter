@@ -3,28 +3,24 @@ import 'package:app_gobarber/utils/shared_utils.dart';
 import 'package:dio/dio.dart';
 
 class HttpRequest {
-  final Dio dio = Dio();
 
-  HttpRequest() {
+  Future<Dio> getApi() async{
+    Dio dio = Dio();
+    ResponseSignIn responseSignIn = await SharedUtils().getAuth();
+    dio.interceptors.clear();
     dio.options.baseUrl = 'https://baber-api.herokuapp.com/';
     dio.options.receiveTimeout = 15000;
     dio.interceptors
       ..add(InterceptorsWrapper(onRequest: (RequestOptions options) {
-        print('token');
-        options.headers["csrfToken"] = 'csrfToken';
-        ResponseSignIn responseSignIn = SharedUtils().getAuth();
-        if(responseSignIn != null){
-          options.headers = {'Authorization': responseSignIn.token};
-        }
+        
+        options.headers["Authorization"] = "Bearer " +responseSignIn.token;
         return options;
       }, onResponse: (Response response) {
-        print('onResponse------------------');
         return response;
       }, onError: (DioError error) {
-        print('---------------->>>>>>>>>>>>>>>>>>error');
-        print(error);
         return error;
       }))
       ..add(LogInterceptor());
+    return dio;
   }
 }

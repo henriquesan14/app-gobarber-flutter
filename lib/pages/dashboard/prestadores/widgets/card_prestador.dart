@@ -2,6 +2,11 @@ import 'package:app_gobarber/pages/dashboard/prestadores/horarios_prestador_page
 import 'package:flutter/material.dart';
 
 class CardPrestador extends StatelessWidget {
+  final String name;
+  final String avatar;
+  
+  CardPrestador({@required this.name, this.avatar});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -17,14 +22,14 @@ class CardPrestador extends StatelessWidget {
               height: 65,
               child: CircleAvatar(
                 backgroundImage: NetworkImage(
-                    "https://i.ytimg.com/vi/nX2mWiJUW30/maxresdefault.jpg"),
+                    avatar == null ? "https://i.ytimg.com/vi/nX2mWiJUW30/maxresdefault.jpg" : avatar),
               ),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
-              "Henrique",
+              name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             )
           ],

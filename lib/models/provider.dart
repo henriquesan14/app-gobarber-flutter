@@ -30,21 +30,21 @@ class Provider {
 }
 
 class Avatar {
-  String name;
+  int id;
   String path;
   String url;
 
-  Avatar({this.name, this.path, this.url});
+  Avatar({this.id, this.path, this.url});
 
   Avatar.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+    id = json['id'];
     path = json['path'];
     url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
+    data['id'] = this.id;
     data['path'] = this.path;
     data['url'] = this.url;
     return data;

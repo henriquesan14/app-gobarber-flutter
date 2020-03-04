@@ -11,10 +11,11 @@ abstract class _AgendamentosStoreBase with Store {
   List<Provider> providers = List<Provider>();
 
   @action
-  Future getProviders() async {
-    Response response = await HttpRequest().dio.get('/providers');
-      List<Provider> providerss = List.from(response.data);
-      providers = providerss;
+  getProviders() async {
+    Dio dio = await HttpRequest().getApi();
+      Response response = await dio.get('/providers');
+      var list = response.data as List;
+      providers = list.map((i) => Provider.fromJson(i)).toList();
   }
   
 }

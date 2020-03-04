@@ -52,7 +52,8 @@ abstract class _SignInStoreBase with Store {
   Future login(context) async {
     loading = true;
     try{
-      Response response = await HttpRequest().dio.post('/sessions', data: userCredentails.toJson());
+      Dio dio = await HttpRequest().getApi();
+      Response response = await dio.post('/sessions', data: userCredentails.toJson());
       ResponseSignIn responseSignIn = ResponseSignIn.fromJson(response.data);
       if(responseSignIn.user.provider){
         _showDialog(context, "Falha no login", "O usuário não pode ser prestador de serviços");
