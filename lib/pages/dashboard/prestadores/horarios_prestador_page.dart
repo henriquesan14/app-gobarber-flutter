@@ -8,17 +8,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class HorariosPrestadorPage extends StatelessWidget{
-
   final HorarioStore horarioStore = HorarioStore();
+  final int idPrestador;
+
+  HorariosPrestadorPage(this.idPrestador);
 
   pickDate(context){
     DatePicker.showDatePicker(
       context,
       locale: LocaleType.pt,
       currentTime: horarioStore.dataSelecionada,
-      minTime: DateTime.now(),
+      minTime: horarioStore.dataSelecionada,
       onConfirm: (value){
         horarioStore.setDataSelecionada(value);
+        horarioStore.getHorarios(idPrestador);
       },
       theme: DatePickerTheme(
         titleHeight: 30,
@@ -40,6 +43,7 @@ class HorariosPrestadorPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    horarioStore.getHorarios(idPrestador);
     return ContainerGradient(
       appBar: AppBar(
         title: Text("Selecione um horário"),
@@ -85,92 +89,59 @@ class HorariosPrestadorPage extends StatelessWidget{
                 ),
             ),
           ),
-          Row(
-            children: <Widget>[
-              HorarioTile(
-                text: "08:00",
-                available: true,
-              ),
-              SizedBox(width: 10,),
-              HorarioTile(
-                text: "09:00",
-                available: false,
-              )
-            ],
-          ),
-          Row(
-            children: <Widget>[ 
-              HorarioTile(
-                text: "10:00",
-                available: false,
-              ),
-              SizedBox(width: 10,),
-              HorarioTile(
-                text: "11:00",
-                available: true,
-              )
-            ],
-          ),
-          Row(
-            children: <Widget>[ 
-              HorarioTile(
-                text: "12:00",
-                available: false,
-              ),
-              SizedBox(width: 10,),
-              HorarioTile(
-                text: "13:00",
-                available: true,
-              )
-            ],
-          ),
-          Row(
-            children: <Widget>[ 
-              HorarioTile(
-                text: "14:00",
-                available: false,
-              ),
-              SizedBox(width: 10,),
-              HorarioTile(
-                text: "15:00",
-                available: true,
-              )
-            ],
-          ),
-          Row(
-            children: <Widget>[ 
-              HorarioTile(
-                text: "16:00",
-                available: true,
-              ),
-              SizedBox(width: 10,),
-              HorarioTile(
-                text: "17:00",
-                available: false,
-              )
-            ],
-          ),
-          Row(
-            children: <Widget>[ 
-              HorarioTile(
-                text: "18:00",
-                available: true,
-              ),
-              SizedBox(width: 10,),
-              HorarioTile(
-                text: "19:00",
-                available: true,
-              )
-            ],
-          ),
-          Row(
-            children: <Widget>[ 
-              HorarioTile(
-                text: "20:00",
-                available: true,
-              ),
-            ],
-          ),
+          Observer(
+            builder: (_){
+              return !horarioStore.loading ? Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      HorarioTile(horarioStore.horarios[0]),
+                      SizedBox(width: 10),
+                      HorarioTile(horarioStore.horarios[1]),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      HorarioTile(horarioStore.horarios[2]),
+                      SizedBox(width: 10),
+                      HorarioTile(horarioStore.horarios[3]),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      HorarioTile(horarioStore.horarios[4]),
+                      SizedBox(width: 10),
+                      HorarioTile(horarioStore.horarios[5]),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      HorarioTile(horarioStore.horarios[6]),
+                      SizedBox(width: 10),
+                      HorarioTile(horarioStore.horarios[7]),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      HorarioTile(horarioStore.horarios[8]),
+                      SizedBox(width: 10),
+                      HorarioTile(horarioStore.horarios[9]),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      HorarioTile(horarioStore.horarios[10]),
+                    ],
+                  )
+                ],
+              ) :
+              Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              );
+            },
+          )
         ],
       ),
     );

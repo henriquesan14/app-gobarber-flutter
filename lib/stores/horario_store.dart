@@ -1,3 +1,6 @@
+import 'package:app_gobarber/api/http_request.dart';
+import 'package:app_gobarber/models/horario.dart';
+import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 part 'horario_store.g.dart';
 
@@ -8,6 +11,12 @@ abstract class _HorarioStoreBase with Store {
 
   @observable
   DateTime dataSelecionada = DateTime.now();
+
+  @observable
+  List<Horario> horarios = List<Horario>();
+
+  @observable
+  bool loading = false;
 
   @computed
   String get dataFormada {
@@ -20,6 +29,21 @@ abstract class _HorarioStoreBase with Store {
   @action
   void setDataSelecionada(value){
     this.dataSelecionada = value;
+  }
+
+  @action
+  getHorarios(idPrestador) async {
+      loading = true;
+      try{
+        Dio dio = await HttpRequest().getApi();
+        Response response = await dio.get('/providers/$idPrestador/available?date=${dataSelecionada.subtract(Duration(hours: 3)).millisecondsSinceEpoch}');
+        var list = response.data as List;
+        horarios = list.map((i) => Horario.fromJson(i)).toList();
+      }on DioError catch(e){
+        print(e);
+      }finally{
+        loading = false;
+      }
   }
   
   

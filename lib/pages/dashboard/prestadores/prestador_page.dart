@@ -24,11 +24,7 @@ class PrestadorPage extends StatelessWidget {
                 ),
                 itemCount: agendamentosStore.providers.length,
                 itemBuilder: (context, index){
-                  return CardPrestador(
-                    name: agendamentosStore.providers[index].name,
-                    avatar: agendamentosStore.providers[index].avatar != null ?
-                    agendamentosStore.providers[index].avatar.url : null,
-                  );
+                  return CardPrestador(agendamentosStore.providers[index]);
                 },
               ) :
               Center(

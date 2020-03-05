@@ -1,11 +1,11 @@
+import 'package:app_gobarber/models/horario.dart';
 import 'package:app_gobarber/pages/dashboard/prestadores/confirm_agendamento_page.dart';
 import 'package:flutter/material.dart';
 
 class HorarioTile extends StatelessWidget {
-  final String text;
-  final bool available;
+  final Horario horario;
 
-  HorarioTile({this.text, this.available});
+  HorarioTile(this.horario);
 
   _goConfirmAgendamento(context){
     Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmAgendamentoPage()));
@@ -17,19 +17,19 @@ class HorarioTile extends StatelessWidget {
     return Expanded(
       flex: 1,
       child: InkWell(
-        onTap: available ? (){
+        onTap: horario.available ? (){
           _goConfirmAgendamento(context);
         } : null,
         child: Container(
           margin: EdgeInsets.only(bottom: 18),
           decoration: BoxDecoration(
               color:
-              available ? Colors.white : Color.fromRGBO(255, 255, 255, 0.6),
+              horario.available ? Colors.white : Color.fromRGBO(255, 255, 255, 0.6),
               borderRadius: BorderRadius.circular(5)),
           padding: EdgeInsets.symmetric(vertical: 20),
           child: Center(
               child: Text(
-            text,
+            horario.time,
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

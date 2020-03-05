@@ -33,6 +33,47 @@ mixin _$HorarioStore on _HorarioStoreBase, Store {
     }, _$dataSelecionadaAtom, name: '${_$dataSelecionadaAtom.name}_set');
   }
 
+  final _$horariosAtom = Atom(name: '_HorarioStoreBase.horarios');
+
+  @override
+  List<Horario> get horarios {
+    _$horariosAtom.context.enforceReadPolicy(_$horariosAtom);
+    _$horariosAtom.reportObserved();
+    return super.horarios;
+  }
+
+  @override
+  set horarios(List<Horario> value) {
+    _$horariosAtom.context.conditionallyRunInAction(() {
+      super.horarios = value;
+      _$horariosAtom.reportChanged();
+    }, _$horariosAtom, name: '${_$horariosAtom.name}_set');
+  }
+
+  final _$loadingAtom = Atom(name: '_HorarioStoreBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.context.enforceReadPolicy(_$loadingAtom);
+    _$loadingAtom.reportObserved();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.context.conditionallyRunInAction(() {
+      super.loading = value;
+      _$loadingAtom.reportChanged();
+    }, _$loadingAtom, name: '${_$loadingAtom.name}_set');
+  }
+
+  final _$getHorariosAsyncAction = AsyncAction('getHorarios');
+
+  @override
+  Future getHorarios(dynamic idPrestador) {
+    return _$getHorariosAsyncAction.run(() => super.getHorarios(idPrestador));
+  }
+
   final _$_HorarioStoreBaseActionController =
       ActionController(name: '_HorarioStoreBase');
 
@@ -49,7 +90,7 @@ mixin _$HorarioStore on _HorarioStoreBase, Store {
   @override
   String toString() {
     final string =
-        'dataSelecionada: ${dataSelecionada.toString()},dataFormada: ${dataFormada.toString()}';
+        'dataSelecionada: ${dataSelecionada.toString()},horarios: ${horarios.toString()},loading: ${loading.toString()},dataFormada: ${dataFormada.toString()}';
     return '{$string}';
   }
 }

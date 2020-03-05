@@ -1,11 +1,11 @@
 import 'package:app_gobarber/pages/dashboard/prestadores/horarios_prestador_page.dart';
 import 'package:flutter/material.dart';
+import 'package:app_gobarber/models/provider.dart';
 
 class CardPrestador extends StatelessWidget {
-  final String name;
-  final String avatar;
+  final Provider provider;
   
-  CardPrestador({@required this.name, this.avatar});
+  CardPrestador(this.provider);
 
   @override
   Widget build(BuildContext context) {
@@ -21,22 +21,23 @@ class CardPrestador extends StatelessWidget {
               width: 65,
               height: 65,
               child: CircleAvatar(
+                backgroundColor: Theme.of(context).primaryColor,
                 backgroundImage: NetworkImage(
-                    avatar == null ? "https://i.ytimg.com/vi/nX2mWiJUW30/maxresdefault.jpg" : avatar),
+                    provider.avatar == null ? "https://i.ytimg.com/vi/nX2mWiJUW30/maxresdefault.jpg" : provider.avatar.url),
               ),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
-              name,
+              provider.name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             )
           ],
         ),
       ),
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HorariosPrestadorPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HorariosPrestadorPage(provider.id)));
       },
     );
   }
