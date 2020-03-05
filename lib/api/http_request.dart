@@ -6,14 +6,21 @@ class HttpRequest {
 
   Future<Dio> getApi() async{
     Dio dio = Dio();
-    ResponseSignIn responseSignIn = await SharedUtils().getAuth();
+    ResponseSignIn responseSignIn;
+    bool isLogged =  await SharedUtils().check();
+    if(isLogged){
+     responseSignIn = await SharedUtils().getAuth();
+    }
+    
     dio.interceptors.clear();
     dio.options.baseUrl = 'https://baber-api.herokuapp.com/';
     dio.options.receiveTimeout = 15000;
     dio.interceptors
       ..add(InterceptorsWrapper(onRequest: (RequestOptions options) {
         
-        options.headers["Authorization"] = "Bearer " +responseSignIn.token;
+        if(responseSignIn != null){
+          options.headers["Authorization"] = "Bearer " +responseSignIn.token;
+        }
         return options;
       }, onResponse: (Response response) {
         return response;

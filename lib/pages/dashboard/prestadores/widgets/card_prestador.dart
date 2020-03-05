@@ -37,7 +37,7 @@ class CardPrestador extends StatelessWidget {
         ),
       ),
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HorariosPrestadorPage(provider.id)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HorariosPrestadorPage(provider)));
       },
     );
   }

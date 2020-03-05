@@ -1,8 +1,14 @@
+import 'package:app_gobarber/models/provider.dart';
 import 'package:app_gobarber/widgets/container_gradient.dart';
 import 'package:app_gobarber/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmAgendamentoPage extends StatelessWidget {
+  final Provider provider;
+  final String date;
+
+  ConfirmAgendamentoPage(this.provider, this.date);
+
   @override
   Widget build(BuildContext context) {
     return ContainerGradient(
@@ -29,7 +35,7 @@ class ConfirmAgendamentoPage extends StatelessWidget {
               margin: EdgeInsets.only(top: 10),
               alignment: Alignment.center,
               child: Text(
-                "Henrique Santos",
+                provider.name,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,

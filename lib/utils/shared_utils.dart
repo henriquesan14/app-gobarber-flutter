@@ -20,4 +20,9 @@ class SharedUtils {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('auth');
   }
+
+  Future<bool> check() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey('auth');
+  }
 }

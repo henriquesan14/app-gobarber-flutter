@@ -62,7 +62,7 @@ abstract class _SignInStoreBase with Store {
       await SharedUtils().setAuth(response.data);
       Navigator.pop(context);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> DashBoard()));
-    }catch(e){
+    }on DioError catch(e){
       _showDialog(context, "Falha no login", "Email/Password inválido(s)");
     }finally{
       loading = false;

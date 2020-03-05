@@ -1,14 +1,16 @@
 import 'package:app_gobarber/models/horario.dart';
+import 'package:app_gobarber/models/provider.dart';
 import 'package:app_gobarber/pages/dashboard/prestadores/confirm_agendamento_page.dart';
 import 'package:flutter/material.dart';
 
 class HorarioTile extends StatelessWidget {
+  final Provider provider;
   final Horario horario;
 
-  HorarioTile(this.horario);
+  HorarioTile(this.horario, this.provider);
 
   _goConfirmAgendamento(context){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmAgendamentoPage()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmAgendamentoPage(provider, horario.value)));
   }
   
 

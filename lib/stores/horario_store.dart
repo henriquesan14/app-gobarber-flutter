@@ -36,7 +36,7 @@ abstract class _HorarioStoreBase with Store {
       loading = true;
       try{
         Dio dio = await HttpRequest().getApi();
-        Response response = await dio.get('/providers/$idPrestador/available?date=${dataSelecionada.subtract(Duration(hours: 3)).millisecondsSinceEpoch}');
+        Response response = await dio.get('/providers/$idPrestador/available?date=${dataSelecionada.millisecondsSinceEpoch}');
         var list = response.data as List;
         horarios = list.map((i) => Horario.fromJson(i)).toList();
       }on DioError catch(e){

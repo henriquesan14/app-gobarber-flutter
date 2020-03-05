@@ -1,3 +1,4 @@
+import 'package:app_gobarber/models/provider.dart';
 import 'package:app_gobarber/pages/dashboard/prestadores/widgets/horario_tile.dart';
 import 'package:app_gobarber/stores/horario_store.dart';
 import 'package:app_gobarber/widgets/container_gradient.dart';
@@ -9,19 +10,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HorariosPrestadorPage extends StatelessWidget{
   final HorarioStore horarioStore = HorarioStore();
-  final int idPrestador;
+  final Provider provider;
 
-  HorariosPrestadorPage(this.idPrestador);
+  HorariosPrestadorPage(this.provider);
 
   pickDate(context){
     DatePicker.showDatePicker(
       context,
       locale: LocaleType.pt,
       currentTime: horarioStore.dataSelecionada,
-      minTime: horarioStore.dataSelecionada,
+      minTime: DateTime.now(),
       onConfirm: (value){
         horarioStore.setDataSelecionada(value);
-        horarioStore.getHorarios(idPrestador);
+        horarioStore.getHorarios(provider.id);
       },
       theme: DatePickerTheme(
         titleHeight: 30,
@@ -43,7 +44,7 @@ class HorariosPrestadorPage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    horarioStore.getHorarios(idPrestador);
+    horarioStore.getHorarios(provider.id);
     return ContainerGradient(
       appBar: AppBar(
         title: Text("Selecione um horário"),
@@ -95,42 +96,42 @@ class HorariosPrestadorPage extends StatelessWidget{
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      HorarioTile(horarioStore.horarios[0]),
+                      HorarioTile(horarioStore.horarios[0], provider),
                       SizedBox(width: 10),
-                      HorarioTile(horarioStore.horarios[1]),
+                      HorarioTile(horarioStore.horarios[1], provider),
                     ],
                   ),
                   Row(
                     children: <Widget>[
-                      HorarioTile(horarioStore.horarios[2]),
+                      HorarioTile(horarioStore.horarios[2], provider),
                       SizedBox(width: 10),
-                      HorarioTile(horarioStore.horarios[3]),
+                      HorarioTile(horarioStore.horarios[3], provider),
                     ],
                   ),
                   Row(
                     children: <Widget>[
-                      HorarioTile(horarioStore.horarios[4]),
+                      HorarioTile(horarioStore.horarios[4], provider),
                       SizedBox(width: 10),
-                      HorarioTile(horarioStore.horarios[5]),
+                      HorarioTile(horarioStore.horarios[5], provider),
                     ],
                   ),
                   Row(
                     children: <Widget>[
-                      HorarioTile(horarioStore.horarios[6]),
+                      HorarioTile(horarioStore.horarios[6], provider),
                       SizedBox(width: 10),
-                      HorarioTile(horarioStore.horarios[7]),
+                      HorarioTile(horarioStore.horarios[7], provider),
                     ],
                   ),
                   Row(
                     children: <Widget>[
-                      HorarioTile(horarioStore.horarios[8]),
+                      HorarioTile(horarioStore.horarios[8], provider),
                       SizedBox(width: 10),
-                      HorarioTile(horarioStore.horarios[9]),
+                      HorarioTile(horarioStore.horarios[9], provider),
                     ],
                   ),
                   Row(
                     children: <Widget>[
-                      HorarioTile(horarioStore.horarios[10]),
+                      HorarioTile(horarioStore.horarios[10], provider),
                     ],
                   )
                 ],
