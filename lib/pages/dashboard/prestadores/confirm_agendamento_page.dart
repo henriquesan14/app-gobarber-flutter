@@ -9,6 +9,26 @@ class ConfirmAgendamentoPage extends StatelessWidget {
 
   ConfirmAgendamentoPage(this.provider, this.date);
 
+  String dataExtenso(){
+    DateTime dateParsed = DateTime.parse(date);
+    DateTime dataAtual = DateTime.now();
+    int diff = dateParsed.day - dataAtual.day;
+    if(diff == 0){
+        return "Hoje ás ${addZero(dateParsed.hour)}:${addZero(dateParsed.minute)}"; 
+    }else if(diff == 1){
+        return "Amanhã ás ${addZero(dateParsed.hour)}:${addZero(dateParsed.minute)}";
+    }
+    return date;
+  }
+
+  String addZero(value){
+    String str = value.toString();
+    if(str.length == 1){
+      return "0" + value.toString();
+    }
+    return str;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ContainerGradient(
@@ -47,7 +67,7 @@ class ConfirmAgendamentoPage extends StatelessWidget {
               margin: EdgeInsets.only(top: 4),
               alignment: Alignment.center,
               child: Text(
-                "hoje às 13:00",
+                dataExtenso(),
                 style: TextStyle(
                   fontSize: 18,
                   color: Color.fromRGBO(255, 255, 255, .6)
