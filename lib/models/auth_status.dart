@@ -1,0 +1,3 @@
+enum AuthStatus {
+  NOT_DETERMINED, LOGGED, NOT_LOGGED_IN
+}
