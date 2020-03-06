@@ -10,17 +10,6 @@ import 'pages/signin/sign_in_page.dart';
 
 void main() => runApp(MyApp());
 
-
-Widget _buildWaitingScreen() {
-    return Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.blueAccent,
-        ),
-      ),
-    );
-  }
-
 class MyApp extends StatefulWidget {
 
   @override

@@ -1,54 +1,59 @@
 import 'package:app_gobarber/models/provider.dart';
+import 'package:app_gobarber/stores/agendamentos_store.dart';
+import 'package:app_gobarber/utils/date_utils.dart';
 import 'package:app_gobarber/widgets/container_gradient.dart';
 import 'package:app_gobarber/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class ConfirmAgendamentoPage extends StatelessWidget {
+  final AgendamentosStore agendamentosStore = AgendamentosStore();
   final Provider provider;
   final String date;
 
   ConfirmAgendamentoPage(this.provider, this.date);
 
-  String dataExtenso(){
-    DateTime dateParsed = DateTime.parse(date);
-    DateTime dataAtual = DateTime.now();
-    int diff = dateParsed.day - dataAtual.day;
-    if(diff == 0){
-        return "Hoje ás ${addZero(dateParsed.hour)}:${addZero(dateParsed.minute)}"; 
-    }else if(diff == 1){
-        return "Amanhã ás ${addZero(dateParsed.hour)}:${addZero(dateParsed.minute)}";
-    }
-    return date;
-  }
-
-  String addZero(value){
-    String str = value.toString();
-    if(str.length == 1){
-      return "0" + value.toString();
-    }
-    return str;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ContainerGradient(
+    return Scaffold(
       appBar: AppBar(
         title: Text("Confirmar agendamento"),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
       ),
-      child: Container(
-          child: Column(
+      backgroundColor: Color(0xffab59c1),
+      body: Observer(
+        builder: (_){
+          return ModalProgressHUD(
+            inAsyncCall: agendamentosStore.loadingPostAgendamento,
+            opacity: 0.3,
+            progressIndicator: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Theme.of(context).primaryColor,
+                    Color(0xffab59c1),
+                  ]
+                ),
+              ),
+              child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              width: 160,
-              height: 160,
+              width: 180,
+              height: 180,
               child: CircleAvatar(
                 backgroundImage: NetworkImage(
-                    "https://i.ytimg.com/vi/nX2mWiJUW30/maxresdefault.jpg"),
+                    provider.avatar != null ? provider.avatar.url : "https://i.ytimg.com/vi/nX2mWiJUW30/maxresdefault.jpg"),
               ),
             ),
             Container(
@@ -67,7 +72,7 @@ class ConfirmAgendamentoPage extends StatelessWidget {
               margin: EdgeInsets.only(top: 4),
               alignment: Alignment.center,
               child: Text(
-                dataExtenso(),
+                DateUtils.dataExtenso(date),
                 style: TextStyle(
                   fontSize: 18,
                   color: Color.fromRGBO(255, 255, 255, .6)
@@ -78,14 +83,20 @@ class ConfirmAgendamentoPage extends StatelessWidget {
               margin: EdgeInsets.only(top: 24),
               width: double.infinity,
               child: SubmitButton(
-                onPressed: (){},
+                onPressed: (){
+                  agendamentosStore.postAgendamento(context, provider.id, date);
+                },
                 color: Color(0xff3b9eff),
                 text: "Confirmar Agendamento",
               ),
             )
           ],
         ),
-      ),
-    );
+            )
+          );
+        },
+      )
+          
+      );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:app_gobarber/api/http_request.dart';
+import 'package:app_gobarber/consts/consts_app.dart';
 import 'package:app_gobarber/models/horario.dart';
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
@@ -7,7 +8,6 @@ part 'horario_store.g.dart';
 class HorarioStore = _HorarioStoreBase with _$HorarioStore;
 
 abstract class _HorarioStoreBase with Store {
-  var months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
   @observable
   DateTime dataSelecionada = DateTime.now();
@@ -21,7 +21,7 @@ abstract class _HorarioStoreBase with Store {
   @computed
   String get dataFormada {
     var dia = dataSelecionada.day;
-    var mes = months[dataSelecionada.month -1];
+    var mes = ConstsApp.MONTHS[dataSelecionada.month -1];
     var ano = dataSelecionada.year;
     return "$dia de $mes de $ano";
   }
