@@ -10,6 +10,8 @@ class SignUpPage extends StatelessWidget {
   final FocusNode focusEmail = FocusNode();
   final FocusNode focusSenha = FocusNode();
   final SignUpStore signUpStore = SignUpStore();
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +37,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
                 child: Form(
+                  key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -51,6 +54,12 @@ class SignUpPage extends StatelessWidget {
                 onSubmitted: (term){
                   FocusScope.of(context).requestFocus(focusEmail);
                 },
+                validator: (value){
+                      if(value.isEmpy){
+                        return "Informe um nome";
+                      }
+                      return null;
+                    },
               ),
               SizedBox(height: 10),
               InputField(
@@ -64,6 +73,12 @@ class SignUpPage extends StatelessWidget {
                 onSubmitted: (term){
                   FocusScope.of(context).requestFocus(focusSenha);
                 },
+                validator: (value){
+                      if(value.isEmpy){
+                        return "Informe um e-mail";
+                      }
+                      return null;
+                    },
               ),
               SizedBox(height: 10),
               InputField(
@@ -74,13 +89,28 @@ class SignUpPage extends StatelessWidget {
                 obscure: true,
                 tipo: TextInputType.visiblePassword,
                 inputAction: TextInputAction.done,
+                onSubmitted: (term){
+                  if(_formKey.currentState.validate()){
+                    signUpStore.register(context);
+                  }
+                },
+                validator: (value){
+                      if(value.isEmpty){
+                          return "Informe a senha";
+                        }else if(value.length < 6){
+                          return "Senha precisa ter 6 caracteres";
+                        }
+                        return null;
+                    },
               ),
               SizedBox(height: 10),
               SubmitButton(
                 color: Color(0xff3b9eff),
                 text: "Cadastrar",
                 onPressed: (){
-                  signUpStore.register(context);
+                  if(_formKey.currentState.validate()){
+                    signUpStore.register(context);
+                  }
                 },
               ),
               SizedBox(height: 20),

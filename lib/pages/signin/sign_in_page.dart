@@ -86,7 +86,9 @@ class SignInPage extends StatelessWidget {
                       tipo: TextInputType.visiblePassword,
                       inputAction: TextInputAction.done,
                       onSubmitted: (term){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> DashBoard()));
+                        if(_formKey.currentState.validate()){
+                          signInStore.login(context);
+                        }
                       },
                     ),
                     SizedBox(height: 10),

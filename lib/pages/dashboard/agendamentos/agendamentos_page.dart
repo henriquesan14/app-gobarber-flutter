@@ -3,6 +3,7 @@ import 'package:app_gobarber/stores/agendamentos_store.dart';
 import 'package:app_gobarber/widgets/container_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 class AgendamentosPage extends StatelessWidget {
   final AgendamentosStore agendamentosStore = AgendamentosStore();
@@ -25,12 +26,17 @@ class AgendamentosPage extends StatelessWidget {
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
               ) :
-             ListView.builder(
-              itemBuilder: (context, index){
-                return AgendamentoTile(appointment: agendamentosStore.agendamentos[index]);
-              },
-              itemCount: agendamentosStore.agendamentos.length,
-            );
+             LazyLoadScrollView(
+                onEndOfPage: (){
+                  agendamentosStore.getAgendamentos();
+                },
+                child: ListView.builder(
+                itemBuilder: (context, index){
+                  return AgendamentoTile(index, agendamentosStore);
+                },
+                itemCount: agendamentosStore.agendamentos.length,
+            ),
+             );
           } 
       ),
     );

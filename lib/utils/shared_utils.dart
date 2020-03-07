@@ -12,8 +12,12 @@ class SharedUtils {
 
   Future<ResponseSignIn> getAuth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String authStr = prefs.getString('auth');
-    return ResponseSignIn.fromJson(json.decode(authStr));
+    bool exist = await check();
+    if(exist){
+      String authStr = prefs.getString('auth');
+      return ResponseSignIn.fromJson(json.decode(authStr));
+    }
+    return null;
   }
 
   removeAuth() async {

@@ -16,17 +16,26 @@ abstract class _AgendamentosStoreBase with Store {
   List<Appointment> agendamentos = List<Appointment>();
   @observable
   bool loadingGetAgendamentos = false;
+  @observable
+  int page = 1;
 
   @action
   getAgendamentos() async {
-    loadingGetAgendamentos = true;
+      if(page == 1){
+        loadingGetAgendamentos = true;
+      }
       try{
         Dio dio = await HttpRequest().getApi();
-        Response response = await dio.get('/appointments');
+        Response response = await dio.get('/appointments?page=$page');
         var list = response.data as List;
-        agendamentos = list.map((i) => Appointment.fromJson(i)).toList();
+        if(list.length > 0){
+          agendamentos.addAll(
+            list.map((i) => Appointment.fromJson(i)).toList()
+          );
+          page++;
+        }
       }catch(e){
-
+        
       }finally{
         loadingGetAgendamentos = false;
       }
@@ -43,8 +52,14 @@ abstract class _AgendamentosStoreBase with Store {
       });
       if(response.statusCode == 200){
         _showDialog(context, "Sucesso","Agendamento realizado com sucesso!", (){
-          Navigator.pop(context);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> DashBoard()));
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => DashBoard()
+            ),
+            (Route<dynamic> route){
+              return false;
+            }
+          );
         });
       }
     }on DioError catch(e){
@@ -53,6 +68,26 @@ abstract class _AgendamentosStoreBase with Store {
       });
     }finally{
       loadingPostAgendamento = false;
+    }
+  }
+
+  @action
+  cancelAgendamento(context, Appointment agendamento) async {
+    try{
+      Dio dio = await HttpRequest().getApi();
+      Response response = await dio.delete('/appointments/${agendamento.id}');
+      if(response.statusCode == 200){
+        _showDialog(context, "Sucesso","Agendamento cancelado com sucesso!", (){
+          agendamentos = List<Appointment>();
+          page = 1;
+          getAgendamentos();
+          Navigator.pop(context);
+        });  
+      }
+    }on DioError catch(e){
+      _showDialog(context, "Falha", e.response.data['error'] ?? e.error, (){
+        Navigator.pop(context);
+      });
     }
   }
 

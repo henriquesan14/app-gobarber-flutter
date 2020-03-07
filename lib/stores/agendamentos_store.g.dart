@@ -66,6 +66,23 @@ mixin _$AgendamentosStore on _AgendamentosStoreBase, Store {
         name: '${_$loadingGetAgendamentosAtom.name}_set');
   }
 
+  final _$pageAtom = Atom(name: '_AgendamentosStoreBase.page');
+
+  @override
+  int get page {
+    _$pageAtom.context.enforceReadPolicy(_$pageAtom);
+    _$pageAtom.reportObserved();
+    return super.page;
+  }
+
+  @override
+  set page(int value) {
+    _$pageAtom.context.conditionallyRunInAction(() {
+      super.page = value;
+      _$pageAtom.reportChanged();
+    }, _$pageAtom, name: '${_$pageAtom.name}_set');
+  }
+
   final _$getAgendamentosAsyncAction = AsyncAction('getAgendamentos');
 
   @override
@@ -81,10 +98,18 @@ mixin _$AgendamentosStore on _AgendamentosStoreBase, Store {
         .run(() => super.postAgendamento(context, idProvider, date));
   }
 
+  final _$cancelAgendamentoAsyncAction = AsyncAction('cancelAgendamento');
+
+  @override
+  Future cancelAgendamento(dynamic context, Appointment agendamento) {
+    return _$cancelAgendamentoAsyncAction
+        .run(() => super.cancelAgendamento(context, agendamento));
+  }
+
   @override
   String toString() {
     final string =
-        'loadingPostAgendamento: ${loadingPostAgendamento.toString()},agendamentos: ${agendamentos.toString()},loadingGetAgendamentos: ${loadingGetAgendamentos.toString()}';
+        'loadingPostAgendamento: ${loadingPostAgendamento.toString()},agendamentos: ${agendamentos.toString()},loadingGetAgendamentos: ${loadingGetAgendamentos.toString()},page: ${page.toString()}';
     return '{$string}';
   }
 }

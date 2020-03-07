@@ -12,12 +12,14 @@ class InputField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focus;
   final Function validator;
+  final String initialValue;
 
-  InputField({this.hint, this.icon, this.obscure = false, this.autoCorrect = false, this.tipo, this.inputAction, this.focus, this.onSubmitted, this.onChanged , this.controller, this.validator});
+  InputField({this.hint, this.icon, this.obscure = false, this.autoCorrect = false, this.tipo, this.inputAction, this.focus, this.onSubmitted, this.onChanged , this.controller, this.validator, this.initialValue});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       onChanged: onChanged,
       validator: validator,
       focusNode: focus,

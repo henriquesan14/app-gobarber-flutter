@@ -5,11 +5,15 @@ class DateUtils {
   static String dataExtenso(date){
     DateTime dateParsed = DateTime.parse(date).subtract(Duration(hours: 3));
     DateTime dataAtual = DateTime.now();
-    int diff = dateParsed.day - dataAtual.day;
+    DateTime dateParsedSemHour = DateTime(dateParsed.year, dateParsed.month, dateParsed.day, 0, 0, 0);
+    DateTime dateAtualSemHour = DateTime(dataAtual.year, dataAtual.month, dataAtual.day, 0, 0, 0);
+    int diff = dateParsedSemHour.difference(dateAtualSemHour).inDays;
     if(diff == 0){
         return "Hoje às ${addZero(dateParsed.hour)}:${addZero(dateParsed.minute)}"; 
     }else if(diff == 1){
         return "Amanhã às ${addZero(dateParsed.hour)}:${addZero(dateParsed.minute)}";
+    }else if(diff == -1){
+        return "Ontem às ${addZero(dateParsed.hour)}:${addZero(dateParsed.minute)}";
     }
     return "Dia ${addZero(dateParsed.day)} de ${ConstsApp.MONTHS[dateParsed.month -1]} às ${addZero(dateParsed.hour)}:${addZero(dateParsed.minute)} ";
   }
