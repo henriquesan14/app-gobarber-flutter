@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget{
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Theme.of(context).primaryColor,
-                    Color(0xffab59c1),
+                    Color(0xff7159c1),
+                    Color(0xffab59c1)
                   ]
                 ),
           ),

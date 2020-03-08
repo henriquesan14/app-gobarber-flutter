@@ -16,6 +16,8 @@ abstract class _ProfileStoreBase with Store {
 
   @observable
   UserUpdate userUpdate = UserUpdate();
+  @observable
+  bool loading = false;
   
   @action
   void logout(context){
@@ -27,71 +29,98 @@ abstract class _ProfileStoreBase with Store {
   @action
   updateUser(context) async {
     try{
+      dynamic body;
       Dio dio = await HttpRequest().getApi();
-      Response response = await dio.put('/users', data: userUpdate.toJson());
+      if(userUpdate.password == null || userUpdate.password.isEmpty){
+        body  = {
+          "name": userUpdate.name,
+          "email": userUpdate.email
+        }; 
+      }else{
+        body  = {
+          "name": userUpdate.name,
+          "email": userUpdate.email,
+          "oldPassword": userUpdate.oldPassword,
+          "password": userUpdate.password,
+          "confirmPassword": userUpdate.confirmPassword
+        }; 
+      }
+      Response response = await dio.put('/users', data: body);
       User user = User.fromJson(response.data);
-      ResponseSignIn responseSignIn = ResponseSignIn();
+      ResponseSignIn responseSignIn = await SharedUtils().getAuth();
       responseSignIn.user = user;
-      String userStr = responseSignIn.toJson().toString();
-      await SharedUtils().setAuth(json.decode(userStr));
+      dynamic userStr = responseSignIn.toJson();
+      String userJson = json.encode(userStr);
+      dynamic a = json.decode(userJson);
+      await SharedUtils().setAuth(a);
       _showDialog(context, "Sucesso", "Perfil atualizado", (){
+        
         Navigator.pop(context);
       });
     }on DioError catch(e){
-      _showDialog(context, "Falha no login", "Email/Password inválido(s)", (){
+      _showDialog(context, "Falha", e.response.data['error'], (){
         Navigator.pop(context);
       });
+    }
+  }
+
+  
+
+  @action
+  getUser() async {
+    loading = true;
+    try{
+      ResponseSignIn responseSignIn = await SharedUtils().getAuth();
+      userUpdate.name = responseSignIn.user.name;
+      userUpdate.email = responseSignIn.user.email;
+    }catch(e){
+      print(e);
+    }finally{
+      loading = false;
     }
   }
 
   @action
   setName(value){
-    this.userUpdate.name = value;
+    userUpdate.name = value;
   }
 
   @action
   setEmail(value){
-    this.userUpdate.email = value;
+    userUpdate.email = value;
   }
 
   @action
   setOldPassword(value){
-    this.userUpdate.oldPassword = value;
+    userUpdate.oldPassword = value;
   }
 
   @action
   setPassword(value){
-    this.userUpdate.password = value;
+    userUpdate.password = value;
   }
 
   @action
   setConfirmPassword(value){
-    this.userUpdate.confirmPassword = value;
+    userUpdate.confirmPassword = value;
   }
 
   @action
-  validateOldPassword(value){
-    if((userUpdate.password != null || userUpdate.password != "") && value.isEmpty){
-      return "Informe sua senha atual";
+  String validateName(value){
+    if(value.isEmpty){
+      return "Informe o nome";
     }
     return null;
   }
 
   @action
-  validatePassword(value){
-    if((userUpdate.oldPassword != null || userUpdate.oldPassword != "") && value.isEmpty){
-      return "Informe nova senha";
+  String validateEmail(value){
+    if(value.isEmpty){
+      return "Informe o e-mail";
     }
     return null;
   }
 
-  @action
-  validateConfirmPassword(value){
-    if((userUpdate.password != null || userUpdate.password != "") && value.isEmpty){
-      return "Informe a confirmação da senha";
-    }
-    return null;
-  }
 
   _showDialog(context, title, content, onPress){
     showDialog(

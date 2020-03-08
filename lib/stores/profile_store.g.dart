@@ -26,11 +26,35 @@ mixin _$ProfileStore on _ProfileStoreBase, Store {
     }, _$userUpdateAtom, name: '${_$userUpdateAtom.name}_set');
   }
 
+  final _$loadingAtom = Atom(name: '_ProfileStoreBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.context.enforceReadPolicy(_$loadingAtom);
+    _$loadingAtom.reportObserved();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.context.conditionallyRunInAction(() {
+      super.loading = value;
+      _$loadingAtom.reportChanged();
+    }, _$loadingAtom, name: '${_$loadingAtom.name}_set');
+  }
+
   final _$updateUserAsyncAction = AsyncAction('updateUser');
 
   @override
   Future updateUser(dynamic context) {
     return _$updateUserAsyncAction.run(() => super.updateUser(context));
+  }
+
+  final _$getUserAsyncAction = AsyncAction('getUser');
+
+  @override
+  Future getUser() {
+    return _$getUserAsyncAction.run(() => super.getUser());
   }
 
   final _$_ProfileStoreBaseActionController =
@@ -97,30 +121,20 @@ mixin _$ProfileStore on _ProfileStoreBase, Store {
   }
 
   @override
-  dynamic validateOldPassword(dynamic value) {
+  String validateName(dynamic value) {
     final _$actionInfo = _$_ProfileStoreBaseActionController.startAction();
     try {
-      return super.validateOldPassword(value);
+      return super.validateName(value);
     } finally {
       _$_ProfileStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic validatePassword(dynamic value) {
+  String validateEmail(dynamic value) {
     final _$actionInfo = _$_ProfileStoreBaseActionController.startAction();
     try {
-      return super.validatePassword(value);
-    } finally {
-      _$_ProfileStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic validateConfirmPassword(dynamic value) {
-    final _$actionInfo = _$_ProfileStoreBaseActionController.startAction();
-    try {
-      return super.validateConfirmPassword(value);
+      return super.validateEmail(value);
     } finally {
       _$_ProfileStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -128,7 +142,8 @@ mixin _$ProfileStore on _ProfileStoreBase, Store {
 
   @override
   String toString() {
-    final string = 'userUpdate: ${userUpdate.toString()}';
+    final string =
+        'userUpdate: ${userUpdate.toString()},loading: ${loading.toString()}';
     return '{$string}';
   }
 }

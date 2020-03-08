@@ -1,5 +1,4 @@
 
-import 'package:app_gobarber/pages/dashboard/dashboard.dart';
 import 'package:app_gobarber/pages/signup/sign_up_page.dart';
 import 'package:app_gobarber/stores/sign_in_store.dart';
 import 'package:app_gobarber/widgets/input_field.dart';
