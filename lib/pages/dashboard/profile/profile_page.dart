@@ -6,6 +6,7 @@ import 'package:app_gobarber/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:dio/dio.dart';
 
 class ProfilePage extends StatelessWidget {
   final TextEditingController nameController= TextEditingController();
@@ -19,6 +20,44 @@ class ProfilePage extends StatelessWidget {
   final FocusNode focusConfirmSenha = FocusNode();
   final ProfileStore profileStore = ProfileStore();
   final GlobalKey<FormState> _formKey = GlobalKey();
+
+  _showDialog(context, title, content, onPress){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text(title),
+            content: Text(content),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: onPress,
+              )
+            ],
+          );
+        }
+      );
+  }
+
+  void clear(){
+    oldPasswordController.text= "";
+    passwordController.text = "";
+    confirmPasswordController.text = "";
+  }
+
+  _update(context) async{
+    try{
+      await profileStore.updateUser(context);
+      _showDialog(context, "Sucesso", "Perfil atualizado", (){
+        Navigator.pop(context);
+      });
+      clear();
+    }on DioError catch(e){
+      _showDialog(context, "Falha", e.response.data['error'], (){
+        Navigator.pop(context);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +91,6 @@ class ProfilePage extends StatelessWidget {
                   children: <Widget>[
                     SizedBox(height: 10,),
                     InputField(
-                      // controller: nameController,
                       onChanged: profileStore.setName,
                       initialValue: profileStore.userUpdate.name,
                       autoCorrect: false,
@@ -66,7 +104,6 @@ class ProfilePage extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     InputField(
-                      // controller: emailController,
                       onChanged: profileStore.setEmail,
                       initialValue: profileStore.userUpdate.email,
                       focus: focusEmail,
@@ -87,7 +124,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     InputField(
-                      // controller: oldPasswordController,
+                      controller: oldPasswordController,
                       onChanged: profileStore.setOldPassword,
                       focus: focusSenhaAtual,
                       autoCorrect: false,
@@ -102,7 +139,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     InputField(
-                      // controller: passwordController,
+                      controller: passwordController,
                       onChanged: profileStore.setPassword,
                       focus: focusNovaSenha,
                       autoCorrect: false,
@@ -118,7 +155,7 @@ class ProfilePage extends StatelessWidget {
                     SizedBox(height: 10),
                     InputField(
                       // initialValue: "",
-                      // controller: confirmPasswordController,
+                      controller: confirmPasswordController,
                       onChanged: profileStore.setConfirmPassword,
                       focus: focusConfirmSenha,
                       autoCorrect: false,
@@ -127,7 +164,7 @@ class ProfilePage extends StatelessWidget {
                       inputAction: TextInputAction.done,
                       onSubmitted: (term){
                         if(_formKey.currentState.validate()){
-                          profileStore.updateUser(context);
+                          _update(context);
                         }
                       },
                       tipo: TextInputType.visiblePassword,
@@ -138,7 +175,7 @@ class ProfilePage extends StatelessWidget {
                       color: Color(0xff3b9eff),
                       onPressed: (){
                         if(_formKey.currentState.validate()){
-                          profileStore.updateUser(context);
+                          _update(context);
                         }
                       },
                       text: "Atualizar Perfil",

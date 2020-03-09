@@ -55,7 +55,7 @@ class SignUpPage extends StatelessWidget {
                   FocusScope.of(context).requestFocus(focusEmail);
                 },
                 validator: (value){
-                      if(value.isEmpy){
+                      if(value.isEmpty){
                         return "Informe um nome";
                       }
                       return null;
@@ -74,7 +74,7 @@ class SignUpPage extends StatelessWidget {
                   FocusScope.of(context).requestFocus(focusSenha);
                 },
                 validator: (value){
-                      if(value.isEmpy){
+                      if(value.isEmpty){
                         return "Informe um e-mail";
                       }
                       return null;

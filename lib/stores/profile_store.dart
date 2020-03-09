@@ -28,7 +28,6 @@ abstract class _ProfileStoreBase with Store {
 
   @action
   updateUser(context) async {
-    try{
       dynamic body;
       Dio dio = await HttpRequest().getApi();
       if(userUpdate.password == null || userUpdate.password.isEmpty){
@@ -53,15 +52,6 @@ abstract class _ProfileStoreBase with Store {
       String userJson = json.encode(userStr);
       dynamic a = json.decode(userJson);
       await SharedUtils().setAuth(a);
-      _showDialog(context, "Sucesso", "Perfil atualizado", (){
-        
-        Navigator.pop(context);
-      });
-    }on DioError catch(e){
-      _showDialog(context, "Falha", e.response.data['error'], (){
-        Navigator.pop(context);
-      });
-    }
   }
 
   
@@ -120,25 +110,4 @@ abstract class _ProfileStoreBase with Store {
     }
     return null;
   }
-
-
-  _showDialog(context, title, content, onPress){
-    showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-            title: Text(title),
-            content: Text(content),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("OK"),
-                onPressed: onPress,
-              )
-            ],
-          );
-        }
-      );
-  }
-
-
 }
